@@ -56,7 +56,7 @@ app.use('/api/attendance', requireAuth, attendanceRoutes);
 app.use('/api/fees', requireAuth, feeRoutes);
 
 // Fallback to index.html for single-page application feel
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
