@@ -179,6 +179,23 @@
       </form>
     </div>
   </div>
+
+    <!-- AI Assistant Floating Widget -->
+    <div id="ai-chat-widget">
+      <div id="ai-chat-header" onclick="toggleAIChat()">
+        <h4>✨ AI Dashboard Assistant</h4>
+      </div>
+      <div id="ai-chat-body" style="display: none;">
+        <div id="ai-chat-messages">
+          <div class="message ai">Hello! I am your AI assistant. Ask me anything about your tuition tracks!</div>
+        </div>
+        <div id="ai-chat-input-area">
+          <input type="text" id="ai-chat-input" placeholder="Type your question..." onkeypress="handleAIKeyPress(event)">
+          <button onclick="sendAIMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="app.js"></script>

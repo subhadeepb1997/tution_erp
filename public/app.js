@@ -161,3 +161,53 @@ async function deleteStudent(id) {
 
 // Initialize
 loadDashboard();
+
+// ==== AI CHATBOT LOGIC ====
+function toggleAIChat() {
+  const body = document.getElementById('ai-chat-body');
+  body.style.display = body.style.display === 'none' ? 'flex' : 'none';
+}
+
+function handleAIKeyPress(e) {
+  if (e.key === 'Enter') {
+    sendAIMessage();
+  }
+}
+
+async function sendAIMessage() {
+  const input = document.getElementById('ai-chat-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const messagesContainer = document.getElementById('ai-chat-messages');
+  
+  // Add User Message
+  const userDiv = document.createElement('div');
+  userDiv.className = 'message user';
+  userDiv.innerText = message;
+  messagesContainer.appendChild(userDiv);
+  
+  input.value = '';
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  // Add Loading State
+  const loadingDiv = document.createElement('div');
+  loadingDiv.className = 'message ai';
+  loadingDiv.innerText = 'Thinking...';
+  messagesContainer.appendChild(loadingDiv);
+
+  try {
+    const res = await apiFetch('/ai/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    
+    const data = await res.json();
+    loadingDiv.innerText = data.reply || data.message;
+  } catch (err) {
+    loadingDiv.innerText = 'Sorry, there was an error connecting to the AI.';
+  }
+  
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
