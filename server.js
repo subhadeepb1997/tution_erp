@@ -1,0 +1,67 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const sequelize = require('./models/db');
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Database Connection
+sequelize.sync().then(() => {
+  console.log('Connected to SQLite Database');
+}).catch((err) => {
+  console.error('Failed to connect to SQLite Database', err);
+});
+
+// Authentication Logic
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'supersecret';
+const AUTH_TOKEN = 'tuition-erp-auth-token-12345'; // Hardcoded for simplicity
+
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    res.json({ token: AUTH_TOKEN });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
+// Auth Middleware for protected routes
+const requireAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.split(' ')[1] === AUTH_TOKEN) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+};
+
+// Import Routes
+const studentRoutes = require('./routes/students');
+const attendanceRoutes = require('./routes/attendance');
+const feeRoutes = require('./routes/fees');
+
+// Use Routes (Protected)
+app.use('/api/students', requireAuth, studentRoutes);
+app.use('/api/attendance', requireAuth, attendanceRoutes);
+app.use('/api/fees', requireAuth, feeRoutes);
+
+// Fallback to index.html for single-page application feel
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

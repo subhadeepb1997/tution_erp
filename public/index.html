@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuition ERP Admin Dashboard</title>
+  <meta name="description" content="Manage tuition students, attendance, and fees in one place.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts: Outfit -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-container" class="login-wrapper">
+    <div class="login-box">
+      <div class="brand" style="margin-bottom: 2rem; text-align: center;">
+        <h2>Tuition<span>ERP</span></h2>
+      </div>
+      <h3>Admin Login</h3>
+      <form id="login-form">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="login-username" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="btn primary full-width">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Wrapper (Hidden by default) -->
+  <div id="app-container" style="display: none; width: 100%; height: 100vh; display: flex;">
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+    <div class="brand">
+      <h2>Tuition<span>ERP</span></h2>
+    </div>
+    <ul class="nav-links">
+      <li class="active" data-target="dashboard-view">Dashboard</li>
+      <li data-target="students-view">Students</li>
+      <li data-target="attendance-view">Attendance</li>
+      <li data-target="fees-view">Fees</li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <header>
+      <h1>Welcome back, Admin</h1>
+      <div class="user-profile">
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <!-- Dashboard View -->
+    <section id="dashboard-view" class="view active-view">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Students</h3>
+          <p id="total-students-count">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Pending Fees</h3>
+          <p id="pending-fees-count">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Classes Today</h3>
+          <p id="classes-today-count">0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Students View -->
+    <section id="students-view" class="view">
+      <div class="view-header">
+        <h2>Manage Students</h2>
+        <button class="btn primary" onclick="openModal('student-modal')">Add Student</button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Batch Time</th>
+              <th>Fee Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="students-tbody">
+            <!-- Student rows will be injected here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Attendance View -->
+    <section id="attendance-view" class="view">
+      <div class="view-header">
+        <h2>Attendance Tracking</h2>
+        <input type="date" id="attendance-date" class="date-picker">
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Status</th>
+              <th>Notes</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="attendance-tbody">
+            <!-- Attendance rows injected here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Fees View -->
+    <section id="fees-view" class="view">
+      <div class="view-header">
+        <h2>Fee Management</h2>
+        <input type="month" id="fee-month" class="date-picker">
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Amount Due</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="fees-tbody">
+            <!-- Fee rows injected here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Student Modal -->
+  <div class="modal-overlay" id="student-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New Student</h3>
+        <button class="close-btn" onclick="closeModal('student-modal')">&times;</button>
+      </div>
+      <form id="add-student-form">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="student-name" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" id="student-phone">
+        </div>
+        <div class="form-group">
+          <label>Batch Time</label>
+          <input type="text" id="student-batch" placeholder="e.g. 5:00 PM - 6:00 PM">
+        </div>
+        <div class="form-group">
+          <label>Fee Type</label>
+          <select id="student-fee-type">
+            <option value="Monthly">Monthly</option>
+            <option value="Hourly">Hourly</option>
+            <option value="PerClass">Per Class</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fee Amount (₹)</label>
+          <input type="number" id="student-fee-amount" required>
+        </div>
+        <button type="submit" class="btn primary full-width">Save Student</button>
+      </form>
+    </div>
+  </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

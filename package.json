@@ -1,0 +1,29 @@
+{
+  "name": "tution_erp",
+  "version": "1.0.0",
+  "description": "tution maintainance software",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subhadeepb1997/tution_erp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/subhadeepb1997/tution_erp/issues"
+  },
+  "homepage": "https://github.com/subhadeepb1997/tution_erp#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  }
+}
