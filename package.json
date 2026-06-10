@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/subhadeepb1997/tution_erp.git"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
