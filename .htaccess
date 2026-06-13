@@ -1,0 +1,10 @@
+# Enable Passenger to route traffic to the Node.js application
+PassengerEnabled on
+PassengerAppType node
+PassengerStartupFile server.js
+
+# Ensure standard rewrite rules apply for routing
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(.*)$ - [QSA,L]
+</IfModule>
