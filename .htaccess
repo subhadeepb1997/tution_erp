@@ -1,10 +1,21 @@
-# Enable Passenger to route traffic to the Node.js application
-PassengerEnabled on
-PassengerAppType node
-PassengerStartupFile server.js
+# Disable directory listing to prevent 403 Forbidden errors if Passenger is delayed
+Options -Indexes
 
-# Ensure standard rewrite rules apply for routing
+# Enable Hostinger/LiteSpeed Passenger for Node.js
+<IfModule mod_passenger.c>
+  PassengerEnabled on
+  PassengerAppType node
+  PassengerStartupFile server.js
+</IfModule>
+
+# If Passenger fails or hasn't booted yet, fallback to routing the frontend
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(.*)$ - [QSA,L]
+  
+  # Serve static files directly from the public directory
+  RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ public/$1 [L]
+
+  # Route root to public/index.html
+  RewriteRule ^$ public/index.html [L]
 </IfModule>
