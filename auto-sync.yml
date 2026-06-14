@@ -1,0 +1,24 @@
+name: Auto Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC. Adjust as needed.
+  workflow_dispatch: # Allows you to trigger the sync manually from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push updates to your fork
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync with upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # The gh CLI is pre-installed on GitHub-hosted runners
+          # This command automatically detects the parent repo and syncs the default branch
+          gh repo sync ${{ github.repository }}
