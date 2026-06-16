@@ -2,8 +2,7 @@ name: Auto Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC. Adjust as needed.
-  workflow_dispatch: # Allows you to trigger the sync manually from the Actions tab
+    - cron: '0 0 1 * *' # Runs monthly at midnight UTC. Adjust as needed.
 
 jobs:
   sync:
