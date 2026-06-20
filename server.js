@@ -31,8 +31,8 @@ sequelize.sync().then(() => {
 
 // Authentication Logic
 const crypto = require('crypto');
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const FALLBACK_PASSWORD_HASH = 'f75778f7425be4db0369d09af37a6c2b9a83dea0e53e7bd57412e4b060e607f7'; // SHA256 of the default password
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'superadmin';
+const FALLBACK_PASSWORD_HASH = 'b65e0c6e7ecbf81e14169aafb43aa6beb10ed3183d062205f7a353229e7d9e6e'; // SHA256 of the superadmin password
 const AUTH_TOKEN = 'tuition-erp-auth-token-12345'; // Hardcoded for simplicity
 
 app.post('/api/login', (req, res) => {

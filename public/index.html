@@ -6,196 +6,339 @@
   <title>Tuition ERP Admin Dashboard</title>
   <meta name="description" content="Manage tuition students, attendance, and fees in one place.">
   <link rel="stylesheet" href="styles.css">
-  <!-- Google Fonts: Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Fonts: Inter & Outfit for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
+
+  <!-- Animated Background -->
+  <div class="bg-animated">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <!-- Login Screen -->
   <div id="login-container" class="login-wrapper">
-    <div class="login-box">
-      <div class="brand" style="margin-bottom: 2rem; text-align: center;">
+    <div class="login-box glass-panel">
+      <div class="brand-centered">
+        <i class="ph-fill ph-graduation-cap brand-icon"></i>
         <h2>Tuition<span>ERP</span></h2>
       </div>
-      <h3>Admin Login</h3>
+      <h3>Welcome Back</h3>
+      <p class="subtitle">Please enter your admin credentials</p>
       <form id="login-form">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="login-username" required>
+        <div class="form-group input-icon">
+          <i class="ph ph-user"></i>
+          <input type="text" id="login-username" placeholder="Username" required>
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" required>
+        <div class="form-group input-icon">
+          <i class="ph ph-lock-key"></i>
+          <input type="password" id="login-password" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn primary full-width">Login</button>
+        <button type="submit" class="btn primary full-width glow-btn">
+          <span>Login to Dashboard</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </button>
       </form>
     </div>
   </div>
 
   <!-- App Wrapper (Hidden by default) -->
-  <div id="app-container" style="display: none; width: 100%; height: 100vh; display: flex;">
+  <div id="app-container" style="display: none;" class="app-layout">
+    
     <!-- Navigation Sidebar -->
-    <nav class="sidebar">
-    <div class="brand">
-      <h2>Tuition<span>ERP</span></h2>
+    <nav class="sidebar glass-panel">
+      <div class="brand">
+        <i class="ph-fill ph-graduation-cap brand-icon"></i>
+        <h2>Tuition<span>ERP</span></h2>
+      </div>
+      <ul class="nav-links">
+        <li class="active" data-target="dashboard-view">
+          <i class="ph ph-squares-four"></i>
+          <span>Dashboard</span>
+        </li>
+        <li data-target="students-view">
+          <i class="ph ph-users"></i>
+          <span>Students</span>
+        </li>
+        <li data-target="attendance-view">
+          <i class="ph ph-calendar-check"></i>
+          <span>Attendance</span>
+        </li>
+        <li data-target="fees-view">
+          <i class="ph ph-wallet"></i>
+          <span>Fees</span>
+        </li>
+      </ul>
+      
+      <div class="sidebar-footer">
+        <button class="btn secondary icon-btn logout-btn" onclick="logout()">
+          <i class="ph ph-sign-out"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content">
+      <header class="glass-header">
+        <div class="header-greeting">
+          <h1>Welcome back, Admin</h1>
+          <p>Here is what's happening with your tuition today.</p>
+        </div>
+        <div class="user-profile">
+          <button class="notification-btn"><i class="ph ph-bell"></i><span class="badge"></span></button>
+          <div class="avatar glow-avatar">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin&backgroundColor=transparent" alt="Admin">
+          </div>
+        </div>
+      </header>
+
+      <div class="view-container">
+        <!-- Dashboard View -->
+        <section id="dashboard-view" class="view active-view">
+          <div class="stats-grid">
+            <div class="stat-card glass-card">
+              <div class="stat-icon-wrapper purple">
+                <i class="ph-fill ph-users-three"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Total Students</h3>
+                <p class="counter" id="total-students-count">0</p>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon-wrapper orange">
+                <i class="ph-fill ph-wallet"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Pending Fees</h3>
+                <p class="counter" id="pending-fees-count">0</p>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon-wrapper green">
+                <i class="ph-fill ph-calendar-star"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Classes Today</h3>
+                <p class="counter" id="classes-today-count">0</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="dashboard-widgets">
+            <div class="widget glass-card">
+              <div class="widget-header">
+                <h3>Recent Activity</h3>
+                <button class="btn icon-only"><i class="ph ph-dots-three"></i></button>
+              </div>
+              <div class="empty-state">
+                <i class="ph ph-activity"></i>
+                <p>No recent activity</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Students View -->
+        <section id="students-view" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Manage Students</h2>
+              <p class="subtitle">View and edit student details</p>
+            </div>
+            <button class="btn primary glow-btn" onclick="openModal('student-modal')">
+              <i class="ph-bold ph-plus"></i> Add Student
+            </button>
+          </div>
+          <div class="table-container glass-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Info</th>
+                  <th>Batch Time</th>
+                  <th>Fee Details</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Attendance View -->
+        <section id="attendance-view" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Attendance Tracking</h2>
+              <p class="subtitle">Mark daily attendance</p>
+            </div>
+            <div class="date-selector input-icon">
+              <i class="ph ph-calendar"></i>
+              <input type="date" id="attendance-date" class="date-picker">
+            </div>
+          </div>
+          <div class="table-container glass-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-tbody">
+                 <tr>
+                    <td colspan="4" class="text-center py-4">Select a date to view attendance</td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Fees View -->
+        <section id="fees-view" class="view">
+          <div class="view-header">
+            <div>
+              <h2>Fee Management</h2>
+              <p class="subtitle">Track payments and dues</p>
+            </div>
+            <div class="date-selector input-icon">
+              <i class="ph ph-calendar"></i>
+              <input type="month" id="fee-month" class="date-picker">
+            </div>
+          </div>
+          <div class="table-container glass-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Amount Due</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="fees-tbody">
+                 <tr>
+                    <td colspan="4" class="text-center py-4">Select a month to view fees</td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- AI Assistant Floating Button -->
+    <button id="ai-fab" class="glow-btn" onclick="toggleAIChat()">
+      <i class="ph-fill ph-sparkle"></i>
+    </button>
+
+    <!-- AI Assistant Side Panel -->
+    <div id="ai-sidebar" class="glass-panel slide-panel">
+      <div class="panel-header">
+        <div class="ai-title">
+          <div class="ai-icon glow-avatar"><i class="ph-fill ph-robot"></i></div>
+          <div>
+            <h3>AI Assistant</h3>
+            <span class="status-indicator">Online</span>
+          </div>
+        </div>
+        <button class="btn icon-only" onclick="toggleAIChat()"><i class="ph ph-x"></i></button>
+      </div>
+      
+      <div id="ai-chat-messages" class="chat-area">
+        <div class="message ai">
+          <div class="msg-bubble">Hello! I'm your ERP Assistant. How can I help you manage your tuition today?</div>
+        </div>
+      </div>
+      
+      <div class="chat-input-wrapper">
+        <div class="input-glass">
+          <input type="text" id="ai-chat-input" placeholder="Ask me anything..." onkeypress="handleAIKeyPress(event)">
+          <button class="send-btn" onclick="sendAIMessage()">
+            <i class="ph-fill ph-paper-plane-right"></i>
+          </button>
+        </div>
+      </div>
     </div>
-    <ul class="nav-links">
-      <li class="active" data-target="dashboard-view">Dashboard</li>
-      <li data-target="students-view">Students</li>
-      <li data-target="attendance-view">Attendance</li>
-      <li data-target="fees-view">Fees</li>
-    </ul>
-  </nav>
+    
+    <!-- AI Overlay -->
+    <div id="ai-overlay" class="overlay" onclick="toggleAIChat()"></div>
 
-  <!-- Main Content Area -->
-  <main class="content">
-    <header>
-      <h1>Welcome back, Admin</h1>
-      <div class="user-profile">
-        <div class="avatar">A</div>
-      </div>
-    </header>
-
-    <!-- Dashboard View -->
-    <section id="dashboard-view" class="view active-view">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h3>Total Students</h3>
-          <p id="total-students-count">0</p>
-        </div>
-        <div class="stat-card">
-          <h3>Pending Fees</h3>
-          <p id="pending-fees-count">0</p>
-        </div>
-        <div class="stat-card">
-          <h3>Classes Today</h3>
-          <p id="classes-today-count">0</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Students View -->
-    <section id="students-view" class="view">
-      <div class="view-header">
-        <h2>Manage Students</h2>
-        <button class="btn primary" onclick="openModal('student-modal')">Add Student</button>
-      </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Batch Time</th>
-              <th>Fee Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="students-tbody">
-            <!-- Student rows will be injected here -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Attendance View -->
-    <section id="attendance-view" class="view">
-      <div class="view-header">
-        <h2>Attendance Tracking</h2>
-        <input type="date" id="attendance-date" class="date-picker">
-      </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Status</th>
-              <th>Notes</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="attendance-tbody">
-            <!-- Attendance rows injected here -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Fees View -->
-    <section id="fees-view" class="view">
-      <div class="view-header">
-        <h2>Fee Management</h2>
-        <input type="month" id="fee-month" class="date-picker">
-      </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Amount Due</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="fees-tbody">
-            <!-- Fee rows injected here -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+  </div>
 
   <!-- Add Student Modal -->
   <div class="modal-overlay" id="student-modal">
-    <div class="modal">
+    <div class="modal glass-card">
       <div class="modal-header">
-        <h3>Add New Student</h3>
-        <button class="close-btn" onclick="closeModal('student-modal')">&times;</button>
+        <div class="modal-title">
+          <div class="icon-bg"><i class="ph ph-user-plus"></i></div>
+          <h3>Add New Student</h3>
+        </div>
+        <button class="btn icon-only close-btn" onclick="closeModal('student-modal')">
+          <i class="ph ph-x"></i>
+        </button>
       </div>
       <form id="add-student-form">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="student-name" required>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-icon">
+              <i class="ph ph-user"></i>
+              <input type="text" id="student-name" placeholder="John Doe" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <div class="input-icon">
+              <i class="ph ph-phone"></i>
+              <input type="tel" id="student-phone" placeholder="+91 98765 43210">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Batch Time</label>
+            <div class="input-icon">
+              <i class="ph ph-clock"></i>
+              <input type="text" id="student-batch" placeholder="e.g. 5:00 PM - 6:00 PM">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Fee Type</label>
+            <div class="input-icon">
+              <i class="ph ph-list"></i>
+              <select id="student-fee-type">
+                <option value="Monthly">Monthly</option>
+                <option value="Hourly">Hourly</option>
+                <option value="PerClass">Per Class</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group full-width-field">
+            <label>Fee Amount (₹)</label>
+            <div class="input-icon">
+              <i class="ph ph-currency-inr"></i>
+              <input type="number" id="student-fee-amount" placeholder="1500" required>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Phone Number</label>
-          <input type="text" id="student-phone">
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal('student-modal')">Cancel</button>
+          <button type="submit" class="btn primary glow-btn">Save Student</button>
         </div>
-        <div class="form-group">
-          <label>Batch Time</label>
-          <input type="text" id="student-batch" placeholder="e.g. 5:00 PM - 6:00 PM">
-        </div>
-        <div class="form-group">
-          <label>Fee Type</label>
-          <select id="student-fee-type">
-            <option value="Monthly">Monthly</option>
-            <option value="Hourly">Hourly</option>
-            <option value="PerClass">Per Class</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Fee Amount (₹)</label>
-          <input type="number" id="student-fee-amount" required>
-        </div>
-        <button type="submit" class="btn primary full-width">Save Student</button>
       </form>
     </div>
-  </div>
-
-    <!-- AI Assistant Floating Widget -->
-    <div id="ai-chat-widget">
-      <div id="ai-chat-header" onclick="toggleAIChat()">
-        <h4>✨ AI Dashboard Assistant</h4>
-      </div>
-      <div id="ai-chat-body" style="display: none;">
-        <div id="ai-chat-messages">
-          <div class="message ai">Hello! I am your AI assistant. Ask me anything about your tuition tracks!</div>
-        </div>
-        <div id="ai-chat-input-area">
-          <input type="text" id="ai-chat-input" placeholder="Type your question..." onkeypress="handleAIKeyPress(event)">
-          <button onclick="sendAIMessage()">Send</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <script src="app.js"></script>
