@@ -334,3 +334,41 @@ async function sendAIMessage() {
   
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
+
+// ==== SUPERADMIN RECOVERY LOGIC ====
+document.getElementById('recover-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  const resultDiv = document.getElementById('recover-result');
+  const emailKey = document.getElementById('recover-email').value;
+  
+  btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Decrypting...';
+  resultDiv.style.display = 'none';
+  resultDiv.style.color = 'inherit';
+  resultDiv.innerHTML = '';
+
+  try {
+    const res = await fetch(`${API_BASE}/recover-credentials`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ emailKey })
+    });
+    const data = await res.json();
+    
+    resultDiv.style.display = 'block';
+    if (data.success) {
+      resultDiv.style.color = 'var(--success)';
+      resultDiv.innerText = 'Success! Credentials Decrypted:\n\n' + data.credentials;
+    } else {
+      resultDiv.style.color = 'var(--danger)';
+      resultDiv.innerText = 'Error: ' + data.message;
+    }
+  } catch (err) {
+    resultDiv.style.display = 'block';
+    resultDiv.style.color = 'var(--danger)';
+    resultDiv.innerText = 'Network error or decryption failed.';
+  } finally {
+    btn.innerHTML = originalText;
+  }
+});

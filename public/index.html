@@ -47,6 +47,11 @@
           <i class="ph-bold ph-arrow-right"></i>
         </button>
       </form>
+      <div style="margin-top: 1.5rem; font-size: 0.85rem;">
+        <a href="#" onclick="openModal('recover-modal')" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">
+          <i class="ph ph-key"></i> Recover Superadmin Access
+        </a>
+      </div>
     </div>
   </div>
 
@@ -277,6 +282,38 @@
     <!-- AI Overlay -->
     <div id="ai-overlay" class="overlay" onclick="toggleAIChat()"></div>
 
+  </div>
+
+  <!-- Recovery Modal -->
+  <div class="modal-overlay" id="recover-modal">
+    <div class="modal glass-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="icon-bg" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);"><i class="ph ph-shield-check"></i></div>
+          <h3>Recover Access</h3>
+        </div>
+        <button class="btn icon-only close-btn" onclick="closeModal('recover-modal')">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <p class="subtitle" style="margin-bottom: 1.5rem;">Enter your secret email key to decrypt the superadmin credentials.</p>
+      <form id="recover-form">
+        <div class="form-group">
+          <label>Secret Key (Email)</label>
+          <div class="input-icon">
+            <i class="ph ph-envelope-simple"></i>
+            <input type="text" id="recover-email" placeholder="you@domain.com" required>
+          </div>
+        </div>
+        
+        <div id="recover-result" style="display: none; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; margin-bottom: 1rem; white-space: pre-wrap; font-family: monospace; font-size: 0.9rem;"></div>
+        
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal('recover-modal')">Close</button>
+          <button type="submit" class="btn primary glow-btn" style="background: var(--danger);">Decrypt</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Add Student Modal -->

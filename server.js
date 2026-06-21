@@ -54,6 +54,23 @@ app.post('/api/login', (req, res) => {
   }
 });
 
+app.post('/api/recover-credentials', (req, res) => {
+  const { emailKey } = req.body;
+  if (!emailKey) return res.status(400).json({ message: 'Email key is required' });
+  
+  try {
+    const data = '52d41f9ab48dcb6b8a5a6f430ad32367:e5ddcb4b28c6bc3d9a6269cebdbb03f9b8f080eaedfaadffb39214ad4aac400f34ae2080513c56dc3cdf495e13bb05c1e8e482d9802ed874fc2e3384f1c5874c';
+    const [ivHex, encrypted] = data.split(':');
+    const key = crypto.scryptSync(emailKey, 'salt', 32);
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(ivHex, 'hex'));
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    res.json({ success: true, credentials: decrypted });
+  } catch (err) {
+    res.status(401).json({ success: false, message: 'Invalid Secret Key. Decryption failed.' });
+  }
+});
+
 // Auth Middleware for protected routes
 const requireAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
