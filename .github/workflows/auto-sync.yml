@@ -2,7 +2,7 @@ name: Auto Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 1 * *' # Runs monthly at midnight UTC. Adjust as needed.
+    - cron: '0 0 * * *' # Runs daily at midnight UTC.
 
 jobs:
   sync:
