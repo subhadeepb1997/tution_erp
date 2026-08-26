@@ -22,9 +22,8 @@ Follow the steps below to set up the project locally.
 
 ### Prerequisites
 
-- PHP >= 8.1
-- MySQL >= 8.0 (or MariaDB)
-- Composer
+- Node.js >= 18.x
+- npm (Node Package Manager)
 
 ### Installation Steps
 
@@ -36,41 +35,24 @@ Follow the steps below to set up the project locally.
 
 2.  **Install dependencies**
     ```bash
-    composer install
+    npm install
     ```
 
 3.  **Copy Environment File**
-    Copy the sample environment file and fill in your database credentials.
+    Copy the sample environment file and adjust if necessary.
     ```bash
     cp .env.example .env
     ```
-    Edit `.env` with your DB details:
-    ```ini
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=your_database_name
-    DB_USERNAME=root
-    DB_PASSWORD=your_password
-    ```
 
-4.  **Generate Application Key**
-    ```bash
-    php artisan key:generate
-    ```
+4.  **Database Setup**
+    The application uses SQLite by default. The database file will be automatically created when you start the server.
 
-5.  **Database Setup**
-    Run the migrations to create the necessary tables:
-    ```bash
-    php artisan migrate
-    ```
-
-6.  **Run the Server**
+5.  **Run the Server**
     Start the local development server:
     ```bash
-    php artisan serve
+    npm start
     ```
-    The application will be accessible at `http://localhost:8000`.
+    The application will be accessible at `http://localhost:3000`.
 
 ### Superadmin Credentials
 

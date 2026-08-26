@@ -2,11 +2,9 @@
 Options -Indexes
 
 # Enable Hostinger/LiteSpeed Passenger for Node.js
-<IfModule mod_passenger.c>
-  PassengerEnabled on
-  PassengerAppType node
-  PassengerStartupFile server.js
-</IfModule>
+PassengerEnabled on
+PassengerAppType node
+PassengerStartupFile server.js
 
 # If Passenger fails or hasn't booted yet, fallback to routing the frontend
 <IfModule mod_rewrite.c>
