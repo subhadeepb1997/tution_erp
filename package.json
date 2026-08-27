@@ -2,7 +2,7 @@
   "name": "tution_erp",
   "version": "1.0.0",
   "description": "tution maintainance software",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
