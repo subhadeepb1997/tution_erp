@@ -1,7 +1,19 @@
-# Enable Passenger for Node.js
+# Enable Passenger for Node.js (if supported by Hostinger environment)
 PassengerEnabled on
 PassengerAppType node
 PassengerStartupFile server.js
 
-# Do NOT add mod_rewrite rules here because they will intercept API requests
-# and prevent Passenger from handling them! Node.js will serve the public/ folder automatically.
+# Serve static frontend files and fallback to index.html for SPA routing
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Serve static files directly from the public directory
+  RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ public/$1 [L]
+
+  # Route root and all non-file requests to public/index.html to serve the frontend
+  # The frontend will hit the API endpoints (/api/*), which will return 404 from Apache 
+  # if Node.js isn't running, but the frontend will now gracefully fall back to mock data.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ public/index.html [L]
+</IfModule>

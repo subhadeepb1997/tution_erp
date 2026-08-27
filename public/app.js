@@ -38,6 +38,7 @@ const API_BASE = '/api';
 async function apiFetch(endpoint, options = {}) {
   try {
     const res = await fetch(API_BASE + endpoint, options);
+    if (!res.ok) throw new Error('API returned ' + res.status);
     return res;
   } catch (err) {
     console.error(err);
