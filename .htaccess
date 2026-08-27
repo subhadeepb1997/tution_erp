@@ -1,0 +1,7 @@
+# Enable Passenger for Node.js
+PassengerEnabled on
+PassengerAppType node
+PassengerStartupFile server.js
+
+# Do NOT add mod_rewrite rules here because they will intercept API requests
+# and prevent Passenger from handling them! Node.js will serve the public/ folder automatically.
